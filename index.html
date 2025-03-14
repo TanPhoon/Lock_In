@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lock In Mode</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Landing Page -->
+    <div id="landing-page">
+        <h1>Lock In Mode 🔥</h1>
+        <p id="quote">"Discipline is choosing between what you want now and what you want most."</p>
+        <button onclick="startLockIn()">Lock In</button>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="hidden">
+        <h2>🔥 Lock-In Dashboard 🔥</h2>
+        
+        <!-- Dark Mode Toggle -->
+        <button onclick="toggleDarkMode()">🌙 Dark Mode</button>
+
+        <!-- Focus Timer -->
+        <div class="section">
+            <h3>⏳ Focus Timer</h3>
+            <p id="timer">25:00</p>
+            <button onclick="startTimer()">▶ Start</button>
+            <button onclick="resetTimer()">🔄 Reset</button>
+        </div>
+
+        <!-- Daily Goals Tracker -->
+        <div class="section">
+            <h3>✅ Daily Goals</h3>
+            <label><input type="checkbox" id="goal1"> Study for 2 hours</label><br>
+            <label><input type="checkbox" id="goal2"> Workout</label><br>
+            <label><input type="checkbox" id="goal3"> Meditate</label><br>
+            <label><input type="checkbox" id="goal4"> Read a book</label><br>
+            <button onclick="saveGoals()">Save Progress</button>
+        </div>
+
+        <!-- To-Do List -->
+        <div class="section">
+            <h3>📌 To-Do List</h3>
+            <input type="text" id="taskInput" placeholder="Enter task...">
+            <button onclick="addTask()">Add Task</button>
+            <ul id="taskList"></ul>
+        </div>
+
+        <!-- Progress Graph -->
+        <div class="section">
+            <h3>📊 Progress Overview</h3>
+            <canvas id="progressChart"></canvas>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
