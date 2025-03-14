@@ -1,107 +1,86 @@
-// Start Lock-In Mode
 function startLockIn() {
     document.getElementById("landing-page").classList.add("hidden");
     document.getElementById("dashboard").classList.remove("hidden");
-    loadChart();
-    loadGoals();
-    generateQuote();
+    generateResources();
+    loadJournal();
+    loadLeaderboard();
 }
 
-// To-Do List Functions
-function addTask() {
-    let taskInput = document.getElementById("taskInput");
-    let taskList = document.getElementById("taskList");
-
-    if (taskInput.value.trim() === "") return;
-
-    let li = document.createElement("li");
-    li.innerHTML = taskInput.value + '<button onclick="removeTask(this)">❌</button>';
-    taskList.appendChild(li);
-    taskInput.value = "";
-}
-
-function removeTask(button) {
-    button.parentElement.remove();
-}
-
-// Progress Graph Chart.js
-function loadChart() {
-    let ctx = document.getElementById("progressChart").getContext("2d");
-    new Chart(ctx, {
-        type: "radar",
-        data: {
-            labels: ["Academics", "Physical", "Spirituality", "Mental", "Social"],
-            datasets: [{
-                label: "Your Progress",
-                data: [80, 60, 70, 75, 50],
-                backgroundColor: "rgba(255, 77, 0, 0.5)",
-                borderColor: "#ff4d00",
-                borderWidth: 2
-            }]
-        },
-        options: { responsive: true, scale: { ticks: { beginAtZero: true } } }
-    });
-}
-
-// Dark Mode Toggle
-function toggleDarkMode() {
-    document.body.classList.toggle("dark-mode");
-}
-
-// Focus Timer
-let timer;
-let timeLeft = 1500; // 25 minutes in seconds
-
-function startTimer() {
-    if (!timer) {
-        timer = setInterval(() => {
-            if (timeLeft <= 0) {
-                clearInterval(timer);
-                timer = null;
-                alert("Time's up! Take a break.");
-            } else {
-                timeLeft--;
-                document.getElementById("timer").innerText = formatTime(timeLeft);
+function enableBlocker() {
+    const blockedSites = ["youtube.com", "instagram.com", "tiktok.com", "twitter.com"];
+    setInterval(() => {
+        blockedSites.forEach(site => {
+            if (window.location.href.includes(site)) {
+                window.location.href = "about:blank";
             }
-        }, 1000);
-    }
+        });
+    }, 1000);
 }
 
-function resetTimer() {
-    clearInterval(timer);
-    timer = null;
-    timeLeft = 1500;
-    document.getElementById("timer").innerText = "25:00";
+function playMusic() {
+    let music = document.getElementById("focusMusic");
+    let selectedTrack = document.getElementById("musicSelect").value;
+    music.src = selectedTrack;
+    music.play();
 }
 
-function formatTime(seconds) {
-    let min = Math.floor(seconds / 60);
-    let sec = seconds % 60;
-    return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+function stopMusic() {
+    document.getElementById("focusMusic").pause();
 }
 
-// Daily Goals Tracker
-function saveGoals() {
-    let goals = {};
-    document.querySelectorAll("input[type='checkbox']").forEach((checkbox, index) => {
-        goals[`goal${index}`] = checkbox.checked;
-    });
-    localStorage.setItem("goals", JSON.stringify(goals));
+function saveJournal() {
+    let entry = document.getElementById("journalEntry").value;
+    localStorage.setItem("journal", entry);
+    alert("Journal saved! ✅");
 }
 
-function loadGoals() {
-    let savedGoals = JSON.parse(localStorage.getItem("goals")) || {};
-    document.querySelectorAll("input[type='checkbox']").forEach((checkbox, index) => {
-        checkbox.checked = savedGoals[`goal${index}`] || false;
-    });
+function loadJournal() {
+    let savedEntry = localStorage.getItem("journal");
+    if (savedEntry) document.getElementById("journalEntry").value = savedEntry;
 }
 
-// Motivational Quote Generator
-function generateQuote() {
-    const quotes = [
-        "Discipline is the bridge between goals and accomplishment.",
-        "Focus on what matters and let go of distractions.",
-        "You become what you consistently do."
+function generateResources() {
+    let resources = [
+        { title: "Atomic Habits", link: "https://amzn.to/3XYZ" },
+        { title: "Deep Work", link: "https://amzn.to/3ABC" },
+        { title: "Bhagavad Gita", link: "https://bhagavadgita.io/" },
+        { title: "Discipline Equals Freedom", link: "https://amzn.to/3DEF" }
     ];
-    document.getElementById("quote").innerText = quotes[Math.floor(Math.random() * quotes.length)];
+    
+    let list = document.getElementById("resourcesList");
+    list.innerHTML = "";
+    resources.forEach(res => {
+        let item = document.createElement("li");
+        item.innerHTML = `<a href="${res.link}" target="_blank">${res.title}</a>`;
+        list.appendChild(item);
+    });
+}
+
+function generateShareableLink() {
+    let progress = {
+        journal: localStorage.getItem("journal") || "No journal entry",
+        tasksCompleted: Math.floor(Math.random() * 10) + 1
+    };
+
+    let encodedData = encodeURIComponent(JSON.stringify(progress));
+    let shareableURL = `${window.location.origin}?data=${encodedData}`;
+    document.getElementById("shareLink").innerHTML = `<a href="${shareableURL}" target="_blank">${shareableURL}</a>`;
+}
+
+function loadLeaderboard() {
+    let friends = [
+        { name: "Soral", streak: 8 },
+        { name: "Aryan", streak: 5 },
+        { name: "You", streak: 7 }
+    ];
+    
+    let leaderboard = document.getElementById("leaderboard");
+    leaderboard.innerHTML = "";
+    friends.sort((a, b) => b.streak - a.streak);
+    
+    friends.forEach(friend => {
+        let item = document.createElement("li");
+        item.innerText = `${friend.name} - 🔥 ${friend.streak} days streak`;
+        leaderboard.appendChild(item);
+    });
 }

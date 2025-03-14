@@ -8,50 +8,48 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <!-- Landing Page -->
     <div id="landing-page">
         <h1>Lock In Mode 🔥</h1>
         <p id="quote">"Discipline is choosing between what you want now and what you want most."</p>
         <button onclick="startLockIn()">Lock In</button>
     </div>
 
-    <!-- Dashboard -->
     <div id="dashboard" class="hidden">
         <h2>🔥 Lock-In Dashboard 🔥</h2>
-        
-        <!-- Dark Mode Toggle -->
-        <button onclick="toggleDarkMode()">🌙 Dark Mode</button>
+        <button onclick="enableBlocker()">🚫 Block Distractions</button>
 
-        <!-- Focus Timer -->
         <div class="section">
-            <h3>⏳ Focus Timer</h3>
-            <p id="timer">25:00</p>
-            <button onclick="startTimer()">▶ Start</button>
-            <button onclick="resetTimer()">🔄 Reset</button>
+            <h3>🎵 Focus Music</h3>
+            <select id="musicSelect">
+                <option value="lofi.mp3">Lo-Fi Beats</option>
+                <option value="instrumental.mp3">Instrumental</option>
+                <option value="chant.mp3">Spiritual Chants</option>
+            </select>
+            <button onclick="playMusic()">▶ Play</button>
+            <button onclick="stopMusic()">⏹ Stop</button>
+            <audio id="focusMusic"></audio>
         </div>
 
-        <!-- Daily Goals Tracker -->
         <div class="section">
-            <h3>✅ Daily Goals</h3>
-            <label><input type="checkbox" id="goal1"> Study for 2 hours</label><br>
-            <label><input type="checkbox" id="goal2"> Workout</label><br>
-            <label><input type="checkbox" id="goal3"> Meditate</label><br>
-            <label><input type="checkbox" id="goal4"> Read a book</label><br>
-            <button onclick="saveGoals()">Save Progress</button>
+            <h3>📖 Daily Journal</h3>
+            <textarea id="journalEntry" placeholder="Write your thoughts here..."></textarea>
+            <button onclick="saveJournal()">Save Journal</button>
         </div>
 
-        <!-- To-Do List -->
         <div class="section">
-            <h3>📌 To-Do List</h3>
-            <input type="text" id="taskInput" placeholder="Enter task...">
-            <button onclick="addTask()">Add Task</button>
-            <ul id="taskList"></ul>
+            <h3>📚 Self-Improvement Resources</h3>
+            <ul id="resourcesList"></ul>
         </div>
 
-        <!-- Progress Graph -->
         <div class="section">
-            <h3>📊 Progress Overview</h3>
-            <canvas id="progressChart"></canvas>
+            <h3>🔗 Public Commitment</h3>
+            <button onclick="generateShareableLink()">Generate Link</button>
+            <p id="shareLink"></p>
+        </div>
+
+        <div class="section">
+            <h3>🏆 Friend Leaderboard</h3>
+            <ul id="leaderboard"></ul>
         </div>
     </div>
 
