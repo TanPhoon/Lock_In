@@ -1,3 +1,38 @@
+// 🚀 Firebase Config (Replace with your own)
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+// Google Login
+function googleLogin() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider).then(result => {
+        document.getElementById("login-page").classList.add("hidden");
+        document.getElementById("landing-page").classList.remove("hidden");
+        document.getElementById("user-name").innerText = result.user.displayName;
+    }).catch(error => {
+        console.error(error);
+    });
+}
+
+// Logout
+function logout() {
+    auth.signOut().then(() => {
+        document.getElementById("landing-page").classList.add("hidden");
+        document.getElementById("login-page").classList.remove("hidden");
+    });
+}
+
+// Lock-In Mode
 function startLockIn() {
     document.getElementById("landing-page").classList.add("hidden");
     document.getElementById("dashboard").classList.remove("hidden");
@@ -6,6 +41,7 @@ function startLockIn() {
     loadLeaderboard();
 }
 
+// Distraction Blocker
 function enableBlocker() {
     const blockedSites = ["youtube.com", "instagram.com", "tiktok.com", "twitter.com"];
     setInterval(() => {
@@ -17,17 +53,27 @@ function enableBlocker() {
     }, 1000);
 }
 
+// Music Player
 function playMusic() {
-    let music = document.getElementById("focusMusic");
     let selectedTrack = document.getElementById("musicSelect").value;
-    music.src = selectedTrack;
-    music.play();
+
+    if (selectedTrack === "lofi") {
+        document.getElementById("youtubePlayer").classList.remove("hidden");
+        document.getElementById("focusMusic").pause();
+    } else {
+        document.getElementById("youtubePlayer").classList.add("hidden");
+        let music = document.getElementById("focusMusic");
+        music.src = selectedTrack;
+        music.play();
+    }
 }
 
 function stopMusic() {
     document.getElementById("focusMusic").pause();
+    document.getElementById("youtubePlayer").classList.add("hidden");
 }
 
+// Journal
 function saveJournal() {
     let entry = document.getElementById("journalEntry").value;
     localStorage.setItem("journal", entry);
@@ -39,14 +85,13 @@ function loadJournal() {
     if (savedEntry) document.getElementById("journalEntry").value = savedEntry;
 }
 
+// Resources
 function generateResources() {
     let resources = [
         { title: "Atomic Habits", link: "https://amzn.to/3XYZ" },
         { title: "Deep Work", link: "https://amzn.to/3ABC" },
-        { title: "Bhagavad Gita", link: "https://bhagavadgita.io/" },
-        { title: "Discipline Equals Freedom", link: "https://amzn.to/3DEF" }
+        { title: "Bhagavad Gita", link: "https://bhagavadgita.io/" }
     ];
-    
     let list = document.getElementById("resourcesList");
     list.innerHTML = "";
     resources.forEach(res => {
@@ -56,28 +101,11 @@ function generateResources() {
     });
 }
 
-function generateShareableLink() {
-    let progress = {
-        journal: localStorage.getItem("journal") || "No journal entry",
-        tasksCompleted: Math.floor(Math.random() * 10) + 1
-    };
-
-    let encodedData = encodeURIComponent(JSON.stringify(progress));
-    let shareableURL = `${window.location.origin}?data=${encodedData}`;
-    document.getElementById("shareLink").innerHTML = `<a href="${shareableURL}" target="_blank">${shareableURL}</a>`;
-}
-
+// Leaderboard
 function loadLeaderboard() {
-    let friends = [
-        { name: "Soral", streak: 8 },
-        { name: "Aryan", streak: 5 },
-        { name: "You", streak: 7 }
-    ];
-    
+    let friends = [{ name: "Soral", streak: 8 }, { name: "Aryan", streak: 5 }, { name: "You", streak: 7 }];
     let leaderboard = document.getElementById("leaderboard");
     leaderboard.innerHTML = "";
-    friends.sort((a, b) => b.streak - a.streak);
-    
     friends.forEach(friend => {
         let item = document.createElement("li");
         item.innerText = `${friend.name} - 🔥 ${friend.streak} days streak`;
