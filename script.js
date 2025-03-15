@@ -1,5 +1,8 @@
 // 🚀 Firebase Config (Replace with your own)
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyCByv4Tp7hUghjjg77rDlo38we7Okvxa0k",
   authDomain: "lock-in-a1829.firebaseapp.com",
@@ -11,20 +14,38 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
-// Google Login
-function googleLogin() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider).then(result => {
-        document.getElementById("login-page").classList.add("hidden");
-        document.getElementById("landing-page").classList.remove("hidden");
-        document.getElementById("user-name").innerText = result.user.displayName;
-    }).catch(error => {
-        console.error(error);
-    });
+// 🔐 Enable Persistent Login
+setPersistence(auth, browserLocalPersistence)
+    .then(() => {
+        console.log("Persistence enabled");
+    })
+    .catch(error => console.error("Error enabling persistence:", error));
+
+// 🟢 Google Sign-In Function
+function signInWithGoogle() {
+    signInWithPopup(auth, provider)
+        .then(result => {
+            const user = result.user;
+            localStorage.setItem("user", JSON.stringify(user)); // Save user in local storage
+            window.location.href = "dashboard.html"; // Redirect to dashboard
+        })
+        .catch(error => console.error("Error signing in:", error));
 }
+
+// 🟡 Auto Login (Check if user is already logged in)
+onAuthStateChanged(auth, user => {
+    if (user) {
+        localStorage.setItem("user", JSON.stringify(user));
+        console.log("User already logged in:", user);
+    } else {
+        console.log("No user logged in.");
+    }
+});
 
 // Logout
 function logout() {
@@ -33,6 +54,14 @@ function logout() {
         document.getElementById("login-page").classList.remove("hidden");
     });
 }
+
+// 🟢 Auto-Fill User Info (Optional: Show Username)
+document.addEventListener("DOMContentLoaded", () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+        document.getElementById("user-name").textContent = `Welcome, ${user.displayName}!`;
+    }
+});
 
 // Lock-In Mode
 function startLockIn() {
