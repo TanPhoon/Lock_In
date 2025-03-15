@@ -1,26 +1,49 @@
 body {
     font-family: Arial, sans-serif;
-    text-align: center;
     background-color: #121212;
     color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
-.hidden {
-    display: none;
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+}
+
+.lock-in-btn {
+    background-color: #ff6347;
+    color: white;
+    padding: 15px;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.lock-in-btn:hover {
+    background-color: #ff4835;
+}
+
+canvas {
+    max-width: 600px;
+    margin: auto;
+}
+
+.pomodoro, .lofi, .todo {
+    margin-top: 30px;
+    padding: 20px;
+    background: #222;
+    border-radius: 10px;
 }
 
 button {
-    padding: 10px;
-    margin: 10px;
-    background-color: #ff6b6b;
-    color: white;
+    background-color: #00adb5;
     border: none;
+    padding: 10px;
+    color: white;
+    font-size: 16px;
     cursor: pointer;
-}
-
-.section {
-    margin-top: 20px;
-    padding: 15px;
-    background: #1e1e1e;
-    border-radius: 8px;
 }
