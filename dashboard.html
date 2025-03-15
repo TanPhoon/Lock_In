@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lock In - Dashboard</title>
+</head>
+<body>
+    <h1>Welcome to Lock In Dashboard</h1>
+    <p id="user-info">Loading user data...</p>
+    <button onclick="signOut()">Sign Out</button>
+
+    <script type="module">
+        // Import Firebase SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+
+        // Firebase configuration (SAME AS index.html)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCByv4Tp7hUghjjg77rDlo38we7Okvxa0k",
+            authDomain: "lock-in-a1829.firebaseapp.com",
+            projectId: "lock-in-a1829",
+            storageBucket: "lock-in-a1829.appspot.com",
+            messagingSenderId: "185911175769",
+            appId: "1:185911175769:web:82bb66ceb9d7038e939f48",
+            measurementId: "G-1E2R9PCXVR"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Check if the user is signed in
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById("user-info").innerHTML = `
+                    <p>Welcome, <strong>${user.displayName}</strong></p>
+                    <img src="${user.photoURL}" alt="User Profile Picture" width="100">
+                    <p>Email: ${user.email}</p>
+                `;
+            } else {
+                // Redirect to login page if not signed in
+                window.location.href = "index.html";
+            }
+        });
+
+        // Sign out function
+        function signOutUser() {
+            signOut(auth).then(() => {
+                alert("Signed out successfully!");
+                window.location.href = "index.html";
+            }).catch((error) => {
+                console.error("Sign out error:", error);
+            });
+        }
+
+        // Expose function to global scope
+        window.signOut = signOutUser;
+    </script>
+</body>
+</html>
