@@ -47,3 +47,46 @@ button {
     font-size: 16px;
     cursor: pointer;
 }
+/* Default Light Mode */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --container-bg: #f8f8f8;
+    --button-bg: #007bff;
+    --button-text: #ffffff;
+}
+
+/* Dark Mode */
+.dark-mode {
+    --bg-color: #121212;
+    --text-color: #ffffff;
+    --container-bg: #1e1e1e;
+    --button-bg: #333;
+    --button-text: #ffffff;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: 0.3s ease-in-out;
+}
+
+.container {
+    background-color: var(--container-bg);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+button {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #555;
+}
+
