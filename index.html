@@ -3,66 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lock In Mode</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js"></script>
+    <title>Lock In - Login</title>
 </head>
 <body>
-    <div id="login-page">
-        <h1>Lock In Mode 🔥</h1>
-        <button onclick="googleLogin()">Sign in with Google</button>
-    </div>
+    <h1>Welcome to Lock In</h1>
+    <p>Sign in to access your dashboard.</p>
 
-    <div id="landing-page" class="hidden">
-        <h1>Welcome, <span id="user-name"></span>!</h1>
-        <button onclick="startLockIn()">Lock In</button>
-        <button onclick="logout()">Logout</button>
-    </div>
+    <!-- Google Login Button -->
+    <button onclick="signInWithGoogle()">Sign in with Google</button>
 
-    <div id="dashboard" class="hidden">
-        <h2>🔥 Lock-In Dashboard 🔥</h2>
-        <button onclick="enableBlocker()">🚫 Block Distractions</button>
+    <script type="module">
+        // Import Firebase SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
 
-        <div class="section">
-            <h3>🎵 Focus Music</h3>
-            <select id="musicSelect">
-                <option value="lofi">Lo-Fi Beats (YouTube)</option>
-                <option value="instrumental.mp3">Instrumental</option>
-                <option value="chant.mp3">Spiritual Chants</option>
-            </select>
-            <button onclick="playMusic()">▶ Play</button>
-            <button onclick="stopMusic()">⏹ Stop</button>
-            <audio id="focusMusic"></audio>
-            <div id="youtubePlayer" class="hidden">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-            </div>
-        </div>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCByv4Tp7hUghjjg77rDlo38we7Okvxa0k",
+            authDomain: "lock-in-a1829.firebaseapp.com",
+            projectId: "lock-in-a1829",
+            storageBucket: "lock-in-a1829.appspot.com",
+            messagingSenderId: "185911175769",
+            appId: "1:185911175769:web:82bb66ceb9d7038e939f48",
+            measurementId: "G-1E2R9PCXVR"
+        };
 
-        <div class="section">
-            <h3>📖 Daily Journal</h3>
-            <textarea id="journalEntry" placeholder="Write your thoughts here..."></textarea>
-            <button onclick="saveJournal()">Save Journal</button>
-        </div>
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
 
-        <div class="section">
-            <h3>📚 Self-Improvement Resources</h3>
-            <ul id="resourcesList"></ul>
-        </div>
+        // Function to Sign in with Google
+        function signInWithGoogle() {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    console.log("User signed in:", result.user);
+                    alert("Welcome, " + result.user.displayName);
+                    // Redirect to dashboard after login
+                    window.location.href = "dashboard.html";
+                })
+                .catch((error) => {
+                    console.error("Error signing in:", error);
+                });
+        }
 
-        <div class="section">
-            <h3>🔗 Public Commitment</h3>
-            <button onclick="generateShareableLink()">Generate Link</button>
-            <p id="shareLink"></p>
-        </div>
-
-        <div class="section">
-            <h3>🏆 Friend Leaderboard</h3>
-            <ul id="leaderboard"></ul>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+        // Expose function to global scope
+        window.signInWithGoogle = signInWithGoogle;
+    </script>
 </body>
 </html>
