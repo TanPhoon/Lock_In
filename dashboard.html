@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lock In - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <h1>Welcome to Lock In Dashboard</h1>
@@ -57,5 +59,25 @@
         // Expose function to global scope
         window.signOut = signOutUser;
     </script>
+    
+<div class="container">
+    <h1>Lock In Dashboard</h1>
+
+        <!-- Streaks Tracker -->
+    <div class="streaks">
+        <h2>Your Streaks 🔥</h2>
+        <p>Academics: <span id="academic-streak">0</span> days</p>
+        <p>Physical: <span id="physical-streak">0</span> days</p>
+        <p>Spirituality: <span id="spiritual-streak">0</span> days</p>
+    </div>
+
+    <!-- Web Graph -->
+    <canvas id="progressChart"></canvas>
+
+    <!-- Lock In Button -->
+    <button class="lock-in-btn" onclick="window.location.href='lockin.html'">Lock In</button>
+</div>
+<script src="script.js"></script>
+    
 </body>
 </html>
