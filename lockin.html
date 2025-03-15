@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lock In Mode</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Lock In Mode</h1>
+
+        <!-- Pomodoro Timer -->
+        <div class="pomodoro">
+            <h2>Pomodoro Timer ⏳</h2>
+            <p id="timer">25:00</p>
+            <button onclick="startPomodoro()">Start</button>
+            <button onclick="resetPomodoro()">Reset</button>
+        </div>
+
+        <!-- Lo-Fi Music -->
+        <div class="lofi">
+            <h2>Lo-Fi Music 🎵</h2>
+            <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&loop=1" 
+                frameborder="0" allow="autoplay"></iframe>
+        </div>
+
+        <!-- To-Do List -->
+        <div class="todo">
+            <h2>To-Do List ✅</h2>
+            <input type="text" id="taskInput" placeholder="Add a new task">
+            <button onclick="addTask()">Add</button>
+            <ul id="taskList"></ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
